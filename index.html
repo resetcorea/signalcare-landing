@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>SignalCare.ltd — Carbon Data OS</title>
+<meta name="description" content="The enterprise Carbon Data OS trusted by governments and financial institutions worldwide.">
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+/* ── TOKENS ─────────────────────────── */
+:root{
+  --bg:#04040a; --s1:#09090f; --s2:#0e0e18; --s3:#131320;
+  --t1:#eeeeff; --t2:#68689a; --t3:#2a2a52;
+  --ac:#c2ff47; --cy:#00ccff; --gn:#32d96a; --rd:#ff4d6e;
+  --b1:#14143a; --b2:#1e1e48; --b3:#2a2a5a;
+  --fn:"Pretendard Variable","Pretendard",-apple-system,sans-serif;
+  --fm:"JetBrains Mono",monospace;
+  --ez:cubic-bezier(.22,1,.36,1);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-font-smoothing:antialiased}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--t1);font-family:var(--fn);font-size:15px;line-height:1.6;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+button{font-family:var(--fn);cursor:pointer;border:none;background:none;color:inherit}
+::selection{background:rgba(194,255,71,.15);color:var(--ac)}
+
+/* ── BG ─────────────────────────────── */
+body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse 60% 50% at 15% 5%,rgba(194,255,71,.05),transparent 55%),
+    radial-gradient(ellipse 50% 40% at 85% 95%,rgba(0,204,255,.03),transparent 55%),
+    linear-gradient(rgba(20,20,58,.5) 1px,transparent 1px) 0 0/56px 56px,
+    linear-gradient(90deg,rgba(20,20,58,.5) 1px,transparent 1px) 0 0/56px 56px}
+
+/* ── LAYOUT ─────────────────────────── */
+.z{position:relative;z-index:1}
+.px{padding-left:clamp(20px,5vw,72px);padding-right:clamp(20px,5vw,72px)}
+.sec{padding:clamp(72px,11vh,128px) 0}
+.ctr{text-align:center}
+
+/* ── TYPE ───────────────────────────── */
+h1{font-size:clamp(36px,7vw,86px);font-weight:800;letter-spacing:-.035em;line-height:1.05}
+h2{font-size:clamp(26px,4.5vw,54px);font-weight:700;letter-spacing:-.025em;line-height:1.1}
+.lead{font-size:clamp(14px,1.7vw,18px);color:var(--t2);line-height:1.75;max-width:580px}
+.grad{background:linear-gradient(120deg,var(--ac),#78eead 50%,var(--cy));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.chip{display:inline-flex;align-items:center;gap:7px;font:700 10px var(--fm);letter-spacing:.1em;text-transform:uppercase;color:var(--ac);padding:5px 13px;border-radius:20px;background:rgba(194,255,71,.08);border:1px solid rgba(194,255,71,.22);margin-bottom:20px}
+.chip::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--ac);flex-shrink:0;animation:dot 2s ease-in-out infinite}
+
+/* ── BUTTONS ────────────────────────── */
+.btn{display:inline-flex;align-items:center;gap:8px;padding:13px 28px;border-radius:10px;font:700 14px var(--fn);transition:all .2s var(--ez);white-space:nowrap;cursor:pointer;text-decoration:none}
+.btn-p{background:var(--ac);color:#000;border:none;box-shadow:0 0 28px rgba(194,255,71,.22)}
+.btn-p:hover{background:#d4ff70;transform:translateY(-2px);box-shadow:0 0 44px rgba(194,255,71,.35)}
+.btn-o{border:1px solid var(--b2);color:var(--t2);background:transparent}
+.btn-o:hover{border-color:var(--b3);background:var(--s1);color:var(--t1);transform:translateY(-2px)}
+.btn-sm{padding:8px 17px;font-size:13px;border-radius:8px}
+
+/* ── NAV ────────────────────────────── */
+.nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;height:60px;padding:0 clamp(20px,5vw,72px);background:rgba(4,4,10,.82);backdrop-filter:blur(20px);border-bottom:1px solid rgba(20,20,58,.6);transition:background .3s}
+.nav.scr{background:rgba(4,4,10,.97);border-bottom-color:var(--b1)}
+.n-logo{display:flex;align-items:center;gap:10px}
+.n-mark{width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,var(--ac),var(--cy));display:flex;align-items:center;justify-content:center;font:900 15px var(--fn);color:#000;flex-shrink:0}
+.n-name{font:800 14px var(--fn);letter-spacing:-.02em}
+.n-name em{color:var(--ac);font-style:normal}
+.n-links{display:flex;align-items:center;gap:2px}
+.n-link{font:500 13px var(--fn);color:var(--t2);padding:7px 14px;border-radius:8px;transition:all .15s}
+.n-link:hover{color:var(--t1);background:var(--s1)}
+.n-right{display:flex;align-items:center;gap:8px}
+
+/* Lang picker */
+.lp{position:relative}
+.lp-btn{display:flex;align-items:center;gap:5px;font:700 11px var(--fm);color:var(--ac);padding:5px 11px;border-radius:7px;background:rgba(194,255,71,.08);border:1px solid rgba(194,255,71,.22);cursor:pointer;transition:background .15s}
+.lp-btn:hover{background:rgba(194,255,71,.15)}
+.lp-caret{font-size:9px;transition:transform .2s}
+.lp-caret.open{transform:rotate(180deg)}
+.lp-menu{position:absolute;top:calc(100% + 8px);right:0;background:var(--s2);border:1px solid var(--b2);border-radius:10px;overflow:hidden;min-width:168px;z-index:200;box-shadow:0 8px 32px rgba(0,0,0,.55);display:none}
+.lp-menu.show{display:block}
+.lp-item{width:100%;text-align:left;padding:9px 14px;font:600 12px var(--fn);color:var(--t2);display:flex;align-items:center;gap:9px;cursor:pointer;transition:background .15s}
+.lp-item:hover{background:rgba(255,255,255,.05);color:var(--t1)}
+.lp-item.sel{color:var(--ac)}
+
+/* ── HERO ───────────────────────────── */
+.hero{min-height:100vh;display:flex;align-items:center;padding-top:60px}
+.hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(40px,6vw,80px);align-items:center;width:100%}
+.h-pretag{display:flex;align-items:center;gap:10px;font:600 10px var(--fm);color:var(--t2);letter-spacing:.08em;text-transform:uppercase;margin-bottom:24px}
+.h-pretag span{color:var(--b2)}
+.h-h1{margin-bottom:22px}
+.h-lead{margin-bottom:36px}
+.h-cta{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:38px}
+.h-trust{display:flex;align-items:center;gap:14px;flex-wrap:wrap;font:500 11px var(--fm);color:var(--t3)}
+.h-trust-item{display:flex;align-items:center;gap:5px}
+.tdot{width:5px;height:5px;border-radius:50%;background:var(--gn);animation:dot 2s ease-in-out infinite;flex-shrink:0}
+
+/* ── WIDGET ─────────────────────────── */
+.wgt{background:rgba(8,8,15,.94);border:1px solid var(--b1);border-radius:18px;overflow:hidden;box-shadow:0 24px 80px rgba(0,0,0,.5),0 0 0 1px rgba(194,255,71,.05);animation:up .8s var(--ez) .3s both}
+.w-bar{display:flex;align-items:center;justify-content:space-between;padding:11px 16px;border-bottom:1px solid var(--b1);background:rgba(5,5,12,.9)}
+.w-dots{display:flex;gap:6px}
+.w-dot{width:10px;height:10px;border-radius:50%}
+.w-ttl{font:500 9.5px var(--fm);color:var(--t2);letter-spacing:.05em}
+.w-live{display:flex;align-items:center;gap:5px;font:700 9px var(--fm);color:var(--ac)}
+.w-live::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--ac);animation:dot 2s ease-in-out infinite}
+.w-body{padding:14px}
+.w-kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}
+.w-kpi{background:var(--s1);border:1px solid var(--b1);border-radius:9px;padding:10px}
+.w-kl{font:700 8px var(--fm);letter-spacing:.08em;text-transform:uppercase;color:var(--t2);margin-bottom:5px}
+.w-kv{font:700 18px var(--fn);letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.w-chart{background:var(--s1);border:1px solid var(--b1);border-radius:9px;padding:10px;margin-bottom:10px}
+.w-hash{background:var(--s1);border:1px solid var(--b1);border-radius:9px;padding:10px;display:flex;flex-direction:column;gap:5px}
+.w-hr{display:flex;align-items:center;gap:8px;font:400 8px var(--fm)}
+.w-ht{color:var(--cy);width:54px;flex-shrink:0}
+.w-hv{color:rgba(194,255,71,.32);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.w-hn{color:var(--ac);font-weight:700;font-size:7px;flex-shrink:0}
+.cline{stroke-dasharray:500;stroke-dashoffset:500;animation:draw 2s var(--ez) .6s forwards}
+
+/* ── STATS ──────────────────────────── */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);background:var(--s1);border-top:1px solid var(--b1);border-bottom:1px solid var(--b1)}
+.stat{padding:30px 20px;text-align:center;border-right:1px solid var(--b1)}
+.stat:last-child{border-right:none}
+.stat-n{font-size:clamp(24px,3.5vw,42px);font-weight:800;letter-spacing:-.04em;line-height:1;margin-bottom:6px;font-variant-numeric:tabular-nums}
+.stat-l{font:500 11px var(--fm);color:var(--t2);letter-spacing:.04em}
+
+/* ── FEATURES ───────────────────────── */
+.fg{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:56px}
+.fc{background:var(--s1);border:1px solid var(--b1);border-radius:16px;padding:26px;position:relative;overflow:hidden;transition:border-color .2s,transform .2s}
+.fc:hover{border-color:var(--b2);transform:translateY(-3px)}
+.fc::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--ac),var(--cy));opacity:0;transition:opacity .2s}
+.fc:hover::before{opacity:1}
+.fc-ico{width:42px;height:42px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:19px;margin-bottom:16px;background:var(--s2);border:1px solid var(--b1)}
+.fc-t{font-size:15px;font-weight:700;margin-bottom:8px}
+.fc-d{font-size:12.5px;color:var(--t2);line-height:1.65;margin-bottom:12px}
+.fc-badge{display:inline-flex;font:700 9px var(--fm);letter-spacing:.06em;text-transform:uppercase;padding:3px 8px;border-radius:4px}
+
+/* ── HOW ────────────────────────────── */
+.how-g{display:grid;grid-template-columns:repeat(5,1fr);margin-top:54px;position:relative}
+.how-g::before{content:'';position:absolute;top:27px;left:10%;right:10%;height:1px;background:linear-gradient(90deg,transparent,var(--b2) 20%,var(--ac) 50%,var(--b2) 80%,transparent)}
+.how-s{display:flex;flex-direction:column;align-items:center;text-align:center;padding:0 8px}
+.how-n{width:54px;height:54px;border-radius:50%;border:1px solid var(--b2);background:var(--s1);display:flex;align-items:center;justify-content:center;font:800 17px var(--fm);color:var(--ac);margin-bottom:16px;position:relative;z-index:1}
+.how-t{font-size:12.5px;font-weight:700;margin-bottom:5px}
+.how-d{font-size:11px;color:var(--t2);line-height:1.5}
+
+/* ── ARCH ───────────────────────────── */
+.arch-g{display:grid;grid-template-columns:1fr 1fr;gap:clamp(36px,5vw,72px);align-items:start}
+.arch-box{background:var(--s1);border:1px solid var(--b1);border-radius:16px;padding:clamp(22px,4vw,42px)}
+.a-tree{font:500 13px var(--fm);line-height:2.2;color:var(--t2)}
+.a-root{color:var(--ac);font-weight:700;font-size:15px}
+.a-br{color:var(--t1)}
+.a-tag{font:700 9px var(--fm);letter-spacing:.06em;text-transform:uppercase;padding:2px 7px;border-radius:3px;margin-left:8px;vertical-align:middle}
+.tp0{background:rgba(255,69,96,.12);color:#ff4560}
+.tp05{background:rgba(155,125,255,.12);color:#9b7dff}
+.tp1{background:rgba(0,204,255,.12);color:var(--cy)}
+.tp2{background:rgba(194,255,71,.1);color:var(--ac)}
+.arch-items{display:flex;flex-direction:column;gap:11px;margin-top:28px}
+.arch-item{display:flex;align-items:center;gap:10px;font-size:13px}
+.arch-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+
+/* ── PRICING ────────────────────────── */
+.pg{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:52px}
+.pc{background:var(--s1);border:1px solid var(--b1);border-radius:15px;padding:28px;display:flex;flex-direction:column;transition:border-color .2s,transform .2s}
+.pc.feat{border-color:var(--ac);box-shadow:0 0 36px rgba(194,255,71,.07)}
+.pc:not(.feat):hover{border-color:var(--b2);transform:translateY(-2px)}
+.pc-top{background:var(--ac);color:#000;font:700 9px var(--fm);letter-spacing:.08em;text-align:center;padding:5px;margin:-28px -28px 22px;border-radius:15px 15px 0 0}
+.pc-name{font-size:18px;font-weight:700;margin-bottom:3px}
+.pc-type{font:500 11px var(--fm);color:var(--t2);margin-bottom:18px}
+.pc-amt{font-size:38px;font-weight:800;letter-spacing:-.04em;line-height:1;margin-bottom:5px;font-variant-numeric:tabular-nums}
+.pc-per{font-size:11px;color:var(--t2);margin-bottom:22px}
+.pc-list{list-style:none;display:flex;flex-direction:column;gap:9px;margin-bottom:22px;flex:1}
+.pc-item{display:flex;align-items:flex-start;gap:8px;font-size:12.5px;color:var(--t2)}
+.pc-item::before{content:'✓';color:var(--ac);font-weight:700;flex-shrink:0}
+
+/* ── CTA ────────────────────────────── */
+.cta-sec{background:linear-gradient(135deg,rgba(194,255,71,.05),rgba(0,204,255,.03));border-top:1px solid var(--b1);border-bottom:1px solid var(--b1)}
+.cta-in{text-align:center;padding:clamp(60px,10vh,120px) 0}
+.cta-btns{display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;margin-bottom:20px}
+
+/* ── FOOTER ─────────────────────────── */
+.foot{padding:48px clamp(20px,5vw,72px) 32px;border-top:1px solid var(--b1)}
+.foot-g{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;margin-bottom:30px}
+.foot-desc{font-size:12.5px;color:var(--t2);line-height:1.65;max-width:260px;margin:10px 0 14px}
+.foot-hash{font:500 8.5px var(--fm);color:rgba(194,255,71,.25)}
+.foot-h{font:700 9px var(--fm);letter-spacing:.09em;text-transform:uppercase;color:var(--t2);margin-bottom:13px}
+.foot-links{display:flex;flex-direction:column;gap:9px}
+.foot-link{font-size:12.5px;color:var(--t2);transition:color .15s}
+.foot-link:hover{color:var(--t1)}
+.foot-bot{display:flex;align-items:center;justify-content:space-between;padding-top:20px;border-top:1px solid var(--b1);font-size:12px;color:var(--t3);flex-wrap:wrap;gap:8px}
+
+/* ── REVEAL ─────────────────────────── */
+.rv{opacity:0;transform:translateY(16px);transition:opacity .6s var(--ez),transform .6s var(--ez)}
+.rv.on{opacity:1;transform:translateY(0)}
+.d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}.d4{transition-delay:.4s}
+
+/* ── KEYFRAMES ──────────────────────── */
+@keyframes dot {0%,100%{opacity:1}50%{opacity:.25}}
+@keyframes up  {from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+@keyframes draw{from{stroke-dashoffset:500}to{stroke-dashoffset:0}}
+
+/* ── RESPONSIVE ─────────────────────── */
+@media(max-width:1100px){
+  .hero-grid{grid-template-columns:1fr;gap:48px}
+  .fg{grid-template-columns:1fr 1fr}
+  .arch-g{grid-template-columns:1fr}
+  .foot-g{grid-template-columns:1fr 1fr}
+}
+@media(max-width:860px){
+  .stats{grid-template-columns:1fr 1fr}
+  .stat:nth-child(2){border-right:none}
+  .how-g{grid-template-columns:1fr;gap:22px}
+  .how-g::before{display:none}
+  .pg{grid-template-columns:1fr}
+  .n-links{display:none}
+}
+@media(max-width:520px){
+  .fg{grid-template-columns:1fr}
+  .stats{grid-template-columns:1fr}
+  .stat{border-right:none;border-bottom:1px solid var(--b1)}
+  .foot-g{grid-template-columns:1fr}
+}
+
+/* ── RTL ────────────────────────────── */
+[dir=rtl] body{direction:rtl}
+[dir=rtl] .nav{flex-direction:row-reverse}
+[dir=rtl] .lp-menu{right:auto;left:0}
+[dir=rtl] .hero-grid,[dir=rtl] .h-cta,[dir=rtl] .h-trust,[dir=rtl] .h-pretag{direction:rtl}
+[dir=rtl] .fg,[dir=rtl] .pg,[dir=rtl] .arch-g,[dir=rtl] .stats,[dir=rtl] .foot-g{direction:rtl}
+[dir=rtl] .arch-item{flex-direction:row-reverse}
+[dir=rtl] .a-tree{text-align:right}
+[dir=rtl] .foot-bot{flex-direction:row-reverse}
+[dir=rtl] h1,[dir=rtl] h2{text-align:right}
+[dir=rtl] .ctr h1,[dir=rtl] .ctr h2,[dir=rtl] .ctr .lead,[dir=rtl] .ctr .chip{text-align:center}
+</style>
+</head>
+<body>
+<div class="z">
+
+<!-- ══ NAV ══════════════════════════════════════════ -->
+<nav class="nav px" id="mainNav">
+  <div class="n-logo">
+    <div class="n-mark">S</div>
+    <div class="n-name">SIGNAL<em>CARE</em>.ltd</div>
+  </div>
+  <div class="n-links">
+    <a href="#features" class="n-link" id="nf">Features</a>
+    <a href="#how"      class="n-link" id="nh">How It Works</a>
+    <a href="#arch"     class="n-link" id="na">Architecture</a>
+    <a href="#pricing"  class="n-link" id="np">Pricing</a>
+  </div>
+  <div class="n-right">
+    <!-- Language Picker -->
+    <div class="lp" id="lpWrap">
+      <button class="lp-btn" id="lpBtn" onclick="lpToggle()">
+        <span id="lpFlag">🇺🇸</span>
+        <span id="lpCode">EN</span>
+        <span class="lp-caret" id="lpCaret">▾</span>
+      </button>
+      <div class="lp-menu" id="lpMenu"></div>
+    </div>
+    <a href="https://dashboard.signalcare.ltd" target="_blank" class="btn btn-o btn-sm" id="nLogin">Log In</a>
+    <a href="https://dashboard.signalcare.ltd" target="_blank" class="btn btn-p btn-sm" id="nStart">Start Free →</a>
+  </div>
+</nav>
+
+<!-- ══ HERO ═════════════════════════════════════════ -->
+<section class="hero px sec" id="home">
+  <div class="hero-grid">
+    <!-- Left -->
+    <div>
+      <div class="h-pretag" id="hPretag">
+        <span id="hT1">Carbon Data OS</span><span>·</span>
+        <span id="hT2">MRV</span><span>·</span>
+        <span id="hT3">ESG Finance</span>
+      </div>
+      <div class="chip rv" id="hChip">Sovereign · Audited · Real-time</div>
+      <h1 class="h-h1 rv d1">
+        <span id="hH1a">Your Carbon Data</span><br>
+        <span class="grad" id="hH1b">Is the Asset.</span>
+      </h1>
+      <p class="lead h-lead rv d2" id="hLead"></p>
+      <div class="h-cta rv d3">
+        <a href="https://dashboard.signalcare.ltd" target="_blank" class="btn btn-p" id="hCta1">Launch Dashboard →</a>
+        <a href="#how" class="btn btn-o" id="hCta2">See How It Works</a>
+      </div>
+      <div class="h-trust rv d4">
+        <div class="h-trust-item"><div class="tdot"></div><span id="hS1">41 farms live</span></div>
+        <span style="color:var(--b1)">·</span>
+        <div class="h-trust-item"><div class="tdot"></div><span id="hS2">SHA-256 sealed</span></div>
+        <span style="color:var(--b1)">·</span>
+        <div class="h-trust-item"><div class="tdot"></div><span id="hS3">7 countries</span></div>
+      </div>
+    </div>
+    <!-- Widget -->
+    <div class="wgt">
+      <div class="w-bar">
+        <div class="w-dots">
+          <div class="w-dot" style="background:#ff5f57"></div>
+          <div class="w-dot" style="background:#febc2e"></div>
+          <div class="w-dot" style="background:#28c840"></div>
+        </div>
+        <div class="w-ttl">dashboard.signalcare.ltd</div>
+        <div class="w-live">LIVE</div>
+      </div>
+      <div class="w-body">
+        <div class="w-kpis">
+          <div class="w-kpi"><div class="w-kl">Asset</div><div class="w-kv" style="color:var(--ac)" id="wAsset">$85,420</div></div>
+          <div class="w-kpi"><div class="w-kl">tCO₂e</div><div class="w-kv" style="color:var(--cy)">3,126 t</div></div>
+          <div class="w-kpi"><div class="w-kl">Trust</div><div class="w-kv" style="color:var(--gn)">97.4%</div></div>
+        </div>
+        <div class="w-chart">
+          <svg viewBox="0 0 340 56" style="width:100%;display:block">
+            <line x1="0" y1="14" x2="340" y2="14" stroke="var(--b1)" stroke-width="1"/>
+            <line x1="0" y1="28" x2="340" y2="28" stroke="var(--b1)" stroke-width="1"/>
+            <line x1="0" y1="42" x2="340" y2="42" stroke="var(--b1)" stroke-width="1"/>
+            <path d="M0,50 L34,44 L68,37 L102,41 L136,28 L170,24 L204,15 L238,7 L272,10 L306,3 L340,5 L340,56 L0,56Z" fill="rgba(194,255,71,.07)"/>
+            <path d="M0,50 L34,44 L68,37 L102,41 L136,28 L170,24 L204,15 L238,7 L272,10 L306,3 L340,5" stroke="var(--ac)" stroke-width="2.5" fill="none" stroke-linecap="round" class="cline"/>
+          </svg>
+        </div>
+        <div class="w-hash">
+          <div class="w-hr"><span class="w-ht" id="wT1"></span><span class="w-hv" id="wH1"></span><span class="w-hn">NEW</span></div>
+          <div class="w-hr"><span class="w-ht" id="wT2"></span><span class="w-hv" id="wH2"></span></div>
+          <div class="w-hr"><span class="w-ht" id="wT3"></span><span class="w-hv" id="wH3"></span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ STATS ════════════════════════════════════════ -->
+<div class="stats px" id="statsRow"></div>
+
+<!-- ══ FEATURES ═════════════════════════════════════ -->
+<section class="sec px ctr" id="features">
+  <div class="chip rv" id="fChip">Enterprise Platform</div>
+  <h2 class="rv d1" id="fH"></h2>
+  <p class="lead rv d2" style="margin:14px auto 0" id="fLead"></p>
+  <div class="fg" id="fGrid"></div>
+</section>
+
+<!-- ══ HOW IT WORKS ══════════════════════════════════ -->
+<section class="sec px ctr" id="how" style="background:var(--s1);border-top:1px solid var(--b1);border-bottom:1px solid var(--b1)">
+  <div class="chip rv" id="hwChip">Process</div>
+  <h2 class="rv d1" id="hwH"></h2>
+  <div class="how-g" id="hwGrid"></div>
+</section>
+
+<!-- ══ ARCHITECTURE ══════════════════════════════════ -->
+<section class="sec px" id="arch">
+  <div class="arch-g">
+    <div>
+      <div class="chip rv" id="arChip">Architecture</div>
+      <h2 class="rv d1" id="arH"></h2>
+      <p class="lead rv d2" style="margin-top:18px" id="arLead"></p>
+      <div class="arch-items rv d3" id="arItems"></div>
+    </div>
+    <div class="arch-box rv d2">
+      <div class="a-tree">
+        <div class="a-root">Carbon Data OS</div>
+        <div>├── <span class="a-br">Multi-Tenant SaaS</span><span class="a-tag tp0">P0</span></div>
+        <div>├── <span class="a-br">RBAC + Evidence Engine</span><span class="a-tag tp0">P0</span></div>
+        <div>├── <span class="a-br">Carbon-Based Billing</span><span class="a-tag tp0">P0</span></div>
+        <div>├── <span class="a-br">Evidence-Linked Audit</span><span class="a-tag tp0">P0</span></div>
+        <div>├── <span class="a-br">Security Audit</span><span class="a-tag tp05">P0.5</span></div>
+        <div>├── <span class="a-br">Data Sovereign Mesh</span><span class="a-tag tp1">P1</span></div>
+        <div>├── <span class="a-br">National Carbon Map</span><span class="a-tag tp1">P1</span></div>
+        <div>├── <span class="a-br">Revenue Share</span><span class="a-tag tp1">P1</span></div>
+        <div>└── <span class="a-br">Marketplace · Settlement</span><span class="a-tag tp2">P2</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ PRICING ═══════════════════════════════════════ -->
+<section class="sec px ctr" id="pricing" style="background:var(--s1);border-top:1px solid var(--b1);border-bottom:1px solid var(--b1)">
+  <div class="chip rv" id="prChip">Pricing</div>
+  <h2 class="rv d1" id="prH"></h2>
+  <p class="lead rv d2" style="margin:14px auto 0" id="prLead"></p>
+  <div class="pg" id="prGrid"></div>
+</section>
+
+<!-- ══ CTA ══════════════════════════════════════════ -->
+<section class="cta-sec">
+  <div class="cta-in px">
+    <div class="chip" style="margin:0 auto 18px" id="ctaChip">Get Started</div>
+    <h2 style="margin-bottom:14px"><span id="ctaH1">Your Farm Data</span><br><span class="grad" id="ctaH2">Becomes an Asset.</span></h2>
+    <p class="lead" style="margin:0 auto 36px" id="ctaLead"></p>
+    <div class="cta-btns">
+      <a href="https://dashboard.signalcare.ltd" target="_blank" class="btn btn-p" style="font-size:15px;padding:15px 34px" id="ctaB1">Launch Dashboard →</a>
+      <a href="mailto:hello@signalcare.ltd" class="btn btn-o" style="font-size:15px;padding:15px 34px" id="ctaB2">Talk to Us</a>
+    </div>
+    <p style="font:500 12px var(--fm);color:var(--t3)" id="ctaSub">No credit card required · Free 14-day trial</p>
+  </div>
+</section>
+
+<!-- ══ FOOTER ════════════════════════════════════════ -->
+<footer class="foot">
+  <div class="foot-g">
+    <div>
+      <div class="n-logo" style="margin-bottom:12px">
+        <div class="n-mark" style="width:27px;height:27px;font-size:13px">S</div>
+        <div class="n-name">SIGNAL<em>CARE</em>.ltd</div>
+      </div>
+      <p class="foot-desc" id="ftDesc"></p>
+      <div class="foot-hash" id="ftHash">SHA-256: —</div>
+    </div>
+    <div id="ftC1"></div>
+    <div id="ftC2"></div>
+    <div id="ftC3"></div>
+  </div>
+  <div class="foot-bot">
+    <span id="ftBot"></span>
+    <span>🇰🇷 Korea · 🇹🇭 Thailand · 🇮🇩 Indonesia · 🇲🇾 Malaysia · 🇻🇳 Vietnam</span>
+  </div>
+</footer>
+</div><!-- .z -->
+
+<!-- ══ JAVASCRIPT ════════════════════════════════════ -->
+<script>
+/* ─── i18n ─── */
+const D = {
+  en:{code:"en",flag:"🇺🇸",name:"English",dir:"ltr",
+    nav:{f:"Features",h:"How It Works",a:"Architecture",p:"Pricing",login:"Log In",start:"Start Free →"},
+    hero:{t1:"Carbon Data OS",t2:"MRV",t3:"ESG Finance",chip:"Sovereign · Audited · Real-time",
+      h1a:"Your Carbon Data",h1b:"Is the Asset.",
+      lead:"SignalCare는 실시간 MRV를 넘어, 철저한 데이터 격리와 무결성 감사 체계를 통해 글로벌 규제와 금융권이 즉시 신용할 수 있는 엔터프라이즈 Carbon Data OS입니다.",
+      cta1:"Launch Dashboard →",cta2:"See How It Works",s1:"41 farms live",s2:"SHA-256 sealed",s3:"7 countries"},
+    stats:[{v:"$85k+",l:"Monthly Asset Value"},{v:"3,126",l:"tCO₂e Verified"},{v:"41",l:"Farm Nodes Live"},{v:"97.4%",l:"Trust Score"}],
+    feats:{chip:"Enterprise Platform",h:"5 Core Modules. One Sovereign OS.",
+      lead:"National infrastructure for governments, revenue model for customers, trusted assets for financial institutions.",
+      items:[
+        {ic:"🌏",t:"Data Sovereign Mesh",d:"Store data locally per country with centralized metadata management. Fully compliant with data regulations in Thailand, Malaysia, Indonesia.",badge:"P1",col:"var(--cy)"},
+        {ic:"⚡",t:"Carbon-Based Billing",d:"Platform earns only when customers earn. $1,000/month + 10% of carbon credit revenue.",badge:"P0",col:"#ff4560"},
+        {ic:"🔍",t:"Evidence-Linked Audit",d:"All user activity linked to SHA-256 sealed Evidence Packs. Complete audit chain from login to settlement.",badge:"P0",col:"#ff4560"},
+        {ic:"🗺",t:"National Carbon Map",d:"Real-time national carbon reduction map. Regional data, asset values, and leak alerts included.",badge:"P1",col:"var(--cy)"},
+        {ic:"🛡",t:"Security & Compliance",d:"Tenant data isolation, AES-256, RBAC access control, DLP validation. Top-tier multi-tenant security.",badge:"P0.5",col:"#9b7dff"},
+        {ic:"📈",t:"Revenue Share 50/30/20",d:"Auto distribution of carbon credit revenue. Farm 50% · SignalCare 30% · Partners 20%.",badge:"P1",col:"var(--cy)"},
+      ]},
+    how:{chip:"Process",h:"Farm Data → Carbon Asset in 5 Steps",
+      steps:[{n:1,t:"Farm Data Input",d:"Sensors · feed · environment"},{n:2,t:"AI MRV Calculation",d:"CH₄ · FCR · tCO₂e instant"},{n:3,t:"SHA-256 Seal",d:"Tamper-proof evidence"},{n:4,t:"Asset Valuation",d:"Trust Score × $33.60/t"},{n:5,t:"Auto Settlement",d:"Farm 50% auto-distributed"}]},
+    arch:{chip:"Architecture",h:"Carbon Data OS 8-Layer Stack",
+      lead:"From multi-tenant SaaS to national carbon infrastructure. A single platform trusted by governments, enterprises, and financial institutions.",
+      items:[{c:"#ff4560",l:"Government: National carbon data sovereignty"},{c:"var(--cy)",l:"Enterprise: Automated regulatory compliance"},{c:"#9b7dff",l:"Financial institutions: Trusted collateral data"},{c:"var(--ac)",l:"Investors: Scalable global SaaS model"}]},
+    pricing:{chip:"Pricing",h:"Carbon-Based Billing",lead:"Platform earns only when customers earn revenue",
+      plans:[
+        {n:"Starter",type:"Base Tier",amt:"$1,000",per:"per month",feats:["Up to 5 farms","Basic MRV reports","SHA-256 Evidence Packs","Email support"],cta:"Get Started",col:"var(--t2)",feat:false},
+        {n:"Professional",type:"Revenue-Aligned",amt:"$1,000",per:"/ month + 10% credit revenue",feats:["Up to 20 farms","Full Evidence Engine","CBAM + ISO 14064 reports","National Carbon Map access","Priority support + SLA"],cta:"Start Free Trial →",col:"var(--ac)",feat:true},
+        {n:"Enterprise",type:"Government & Financial",amt:"Custom",per:"negotiated annually",feats:["Unlimited farms","Data Sovereign Mesh","White-label option","SLA 99.9%","Government compliance pack"],cta:"Contact Sales",col:"var(--cy)",feat:false},
+      ]},
+    cta:{chip:"Get Started Today",h1:"Your Farm Data",h2:"Becomes an Asset.",lead:"Open the dashboard and convert your farm data into carbon assets today.",b1:"Launch Dashboard →",b2:"Talk to Us",sub:"No credit card required · Free 14-day trial"},
+    foot:{desc:"The enterprise Carbon Data OS trusted by governments and financial institutions worldwide.",bot:"© 2025 SignalCare.ltd — Sovereign Carbon Data Infrastructure",
+      cols:[
+        {h:"Platform",links:[{t:"Dashboard",u:"https://dashboard.signalcare.ltd"},{t:"Features",u:"#features"},{t:"Pricing",u:"#pricing"},{t:"Architecture",u:"#arch"}]},
+        {h:"Resources",links:[{t:"Documentation",u:"#"},{t:"API Reference",u:"#"},{t:"System Status",u:"https://dashboard.signalcare.ltd/api/health"},{t:"Contact",u:"mailto:hello@signalcare.ltd"}]},
+        {h:"Company",links:[{t:"About",u:"#"},{t:"Enterprise Sales",u:"mailto:enterprise@signalcare.ltd"},{t:"Government",u:"mailto:gov@signalcare.ltd"},{t:"Privacy Policy",u:"#"}]},
+      ]},
+  },
+  ko:{code:"ko",flag:"🇰🇷",name:"한국어",dir:"ltr",
+    nav:{f:"기능",h:"작동 방식",a:"아키텍처",p:"요금제",login:"로그인",start:"무료 시작 →"},
+    hero:{t1:"탄소 데이터 OS",t2:"MRV",t3:"ESG 금융",chip:"데이터 주권 · 감사 · 실시간",
+      h1a:"농장 데이터가",h1b:"자산입니다.",
+      lead:"SignalCare는 실시간 MRV를 넘어, 철저한 데이터 격리와 무결성 감사 체계를 통해 글로벌 규제와 금융권이 즉시 신용할 수 있는 엔터프라이즈 Carbon Data OS입니다.",
+      cta1:"대시보드 열기 →",cta2:"작동 방식 보기",s1:"41개 농장 연결",s2:"SHA-256 봉인",s3:"7개 국가"},
+    stats:[{v:"₩114M+",l:"월 탄소 자산 가치"},{v:"3,126",l:"tCO₂e 검증"},{v:"41",l:"농장 노드"},{v:"97.4%",l:"신뢰 점수"}],
+    feats:{chip:"엔터프라이즈 플랫폼",h:"5개 핵심 모듈. 하나의 주권 OS.",
+      lead:"정부에는 국가 인프라를, 고객에게는 수익 모델을, 금융권에는 신뢰 기반 자산을.",
+      items:[
+        {ic:"🌏",t:"데이터 주권 메시",d:"국가별 데이터 현지 저장, 중앙 메타데이터 관리. 태국·말레이시아·인도네시아 데이터 규정 완전 대응.",badge:"P1",col:"var(--cy)"},
+        {ic:"⚡",t:"탄소 기반 빌링",d:"고객이 수익을 얻을 때만 플랫폼도 함께 수익. 월 $1,000 + 크레딧 매출 10%.",badge:"P0",col:"#ff4560"},
+        {ic:"🔍",t:"증거 연계 감사 로그",d:"모든 활동을 SHA-256 봉인 증거 팩과 연결 추적. 로그인부터 정산까지 완전한 감사 체계.",badge:"P0",col:"#ff4560"},
+        {ic:"🗺",t:"국가 탄소 맵",d:"전국 단위 탄소 감축 현황 실시간 표시. 지역별 감축량·자산 가치·누출 알람.",badge:"P1",col:"var(--cy)"},
+        {ic:"🛡",t:"보안 및 규정 준수",d:"테넌트 데이터 격리, AES-256, RBAC, DLP 검증. 멀티테넌트 최고 수준 보안.",badge:"P0.5",col:"#9b7dff"},
+        {ic:"📈",t:"수익 배분 50/30/20",d:"탄소 크레딧 수익 자동 분배. 농가 50% · SignalCare 30% · 파트너 20%.",badge:"P1",col:"var(--cy)"},
+      ]},
+    how:{chip:"프로세스",h:"농장 데이터 → 탄소 자산, 5단계",
+      steps:[{n:1,t:"농가 데이터 입력",d:"센서·사료·환경"},{n:2,t:"AI MRV 계산",d:"CH₄·FCR·tCO₂e 즉시"},{n:3,t:"SHA-256 봉인",d:"조작 불가능한 증거"},{n:4,t:"자산 가치 확정",d:"신뢰점수 × $33.60/t"},{n:5,t:"수익 자동 정산",d:"농가 50% 자동 배분"}]},
+    arch:{chip:"아키텍처",h:"탄소 데이터 OS 8레이어",
+      lead:"멀티테넌트 SaaS부터 국가 탄소 인프라까지. 정부·기업·금융기관이 모두 신뢰하는 단일 플랫폼.",
+      items:[{c:"#ff4560",l:"정부: 국가 탄소 데이터 주권 확보"},{c:"var(--cy)",l:"기업: 규제 대응 자동화·수익 창출"},{c:"#9b7dff",l:"금융기관: 신뢰 가능한 담보 데이터"},{c:"var(--ac)",l:"투자자: 확장 가능한 글로벌 SaaS"}]},
+    pricing:{chip:"요금제",h:"탄소 기반 빌링",lead:"고객이 수익을 얻을 때만 플랫폼도 함께 수익을 얻는 구조",
+      plans:[
+        {n:"스타터",type:"기본",amt:"$1,000",per:"월 구독료",feats:["최대 5개 농장","기본 MRV 보고서","SHA-256 증거 팩","이메일 지원"],cta:"시작하기",col:"var(--t2)",feat:false},
+        {n:"프로페셔널",type:"수익 연동형",amt:"$1,000",per:"/ 월 + 크레딧 수익 10%",feats:["최대 20개 농장","전체 증거 엔진","CBAM + ISO 14064","국가 탄소 맵","우선 지원 + SLA"],cta:"무료 체험 시작 →",col:"var(--ac)",feat:true},
+        {n:"엔터프라이즈",type:"정부·금융기관",amt:"협의",per:"연간 계약",feats:["무제한 농장","데이터 주권 메시","화이트라벨","SLA 99.9%","정부 규정 준수"],cta:"영업팀 문의",col:"var(--cy)",feat:false},
+      ]},
+    cta:{chip:"지금 시작하기",h1:"농장 데이터가",h2:"자산이 됩니다.",lead:"지금 바로 대시보드를 열고 농장 데이터를 탄소 자산으로 전환하세요.",b1:"대시보드 열기 →",b2:"문의하기",sub:"신용카드 불필요 · 14일 무료 체험"},
+    foot:{desc:"전 세계 정부와 금융기관이 신뢰하는 엔터프라이즈 탄소 데이터 OS.",bot:"© 2025 SignalCare.ltd — Sovereign Carbon Data Infrastructure",
+      cols:[
+        {h:"플랫폼",links:[{t:"대시보드",u:"https://dashboard.signalcare.ltd"},{t:"기능",u:"#features"},{t:"요금제",u:"#pricing"},{t:"아키텍처",u:"#arch"}]},
+        {h:"리소스",links:[{t:"문서",u:"#"},{t:"API 레퍼런스",u:"#"},{t:"시스템 상태",u:"https://dashboard.signalcare.ltd/api/health"},{t:"문의",u:"mailto:hello@signalcare.ltd"}]},
+        {h:"회사",links:[{t:"소개",u:"#"},{t:"엔터프라이즈 영업",u:"mailto:enterprise@signalcare.ltd"},{t:"정부 문의",u:"mailto:gov@signalcare.ltd"},{t:"개인정보처리방침",u:"#"}]},
+      ]},
+  },
+  th:{code:"th",flag:"🇹🇭",name:"ภาษาไทย",dir:"ltr",
+    nav:{f:"ฟีเจอร์",h:"วิธีทำงาน",a:"สถาปัตยกรรม",p:"ราคา",login:"เข้าสู่ระบบ",start:"เริ่มฟรี →"},
+    hero:{t1:"ระบบข้อมูลคาร์บอน",t2:"MRV",t3:"การเงิน ESG",chip:"อธิปไตยข้อมูล · ตรวจสอบ · เรียลไทม์",
+      h1a:"ข้อมูลฟาร์มของคุณ",h1b:"คือสินทรัพย์",
+      lead:"SignalCare คือ Carbon Data OS ระดับองค์กรที่รัฐบาลและสถาบันการเงินทั่วโลกเชื่อถือ",
+      cta1:"เปิดแดชบอร์ด →",cta2:"ดูวิธีทำงาน",s1:"41 ฟาร์มเชื่อมต่อ",s2:"SHA-256 ซีล",s3:"7 ประเทศ"},
+    stats:[{v:"฿3.1M+",l:"มูลค่า/เดือน"},{v:"3,126",l:"tCO₂e ตรวจสอบ"},{v:"41",l:"โหนดฟาร์มสด"},{v:"97.4%",l:"ความน่าเชื่อถือ"}],
+    feats:{chip:"แพลตฟอร์มองค์กร",h:"5 โมดูลหลัก. OS เดียว.",lead:"โครงสร้างพื้นฐานสำหรับรัฐบาล รายได้สำหรับลูกค้า สินทรัพย์สำหรับสถาบันการเงิน",
+      items:[
+        {ic:"🌏",t:"Data Sovereign Mesh",d:"จัดเก็บข้อมูลในประเทศตามกฎหมาย พร้อมจัดการเมทาดาตาแบบรวมศูนย์",badge:"P1",col:"var(--cy)"},
+        {ic:"⚡",t:"การเรียกเก็บเงินตามคาร์บอน",d:"แพลตฟอร์มได้รับรายได้เฉพาะเมื่อลูกค้าได้รับผลกำไร",badge:"P0",col:"#ff4560"},
+        {ic:"🔍",t:"บันทึกตรวจสอบที่เชื่อมโยง",d:"กิจกรรมทั้งหมดเชื่อมโยงกับ Evidence Pack ที่ประทับตรา SHA-256",badge:"P0",col:"#ff4560"},
+        {ic:"🗺",t:"แผนที่คาร์บอนแห่งชาติ",d:"สถานะการลดคาร์บอนระดับชาติแบบเรียลไทม์",badge:"P1",col:"var(--cy)"},
+        {ic:"🛡",t:"ความปลอดภัยและการปฏิบัติตาม",d:"การแยกข้อมูลผู้เช่า, AES-256, RBAC, DLP",badge:"P0.5",col:"#9b7dff"},
+        {ic:"📈",t:"การแบ่งรายได้ 50/30/20",d:"การกระจายรายได้เครดิตคาร์บอนอัตโนมัติ",badge:"P1",col:"var(--cy)"},
+      ]},
+    how:{chip:"กระบวนการ",h:"ข้อมูลฟาร์ม → สินทรัพย์คาร์บอน 5 ขั้นตอน",
+      steps:[{n:1,t:"ป้อนข้อมูลฟาร์ม",d:"เซ็นเซอร์·อาหาร·สิ่งแวดล้อม"},{n:2,t:"คำนวณ AI MRV",d:"CH₄·FCR·tCO₂e ทันที"},{n:3,t:"ประทับตรา SHA-256",d:"หลักฐานไม่สามารถแก้ไขได้"},{n:4,t:"ประเมินมูลค่า",d:"Trust Score × $33.60/t"},{n:5,t:"ชำระเงินอัตโนมัติ",d:"ฟาร์ม 50%"}]},
+    arch:{chip:"สถาปัตยกรรม",h:"Carbon Data OS 8 ชั้น",lead:"จาก SaaS หลายผู้เช่าถึงโครงสร้างพื้นฐานคาร์บอนระดับชาติ",
+      items:[{c:"#ff4560",l:"รัฐบาล: อธิปไตยข้อมูลคาร์บอน"},{c:"var(--cy)",l:"องค์กร: การปฏิบัติตามกฎระเบียบอัตโนมัติ"},{c:"#9b7dff",l:"สถาบันการเงิน: ข้อมูลหลักประกัน"},{c:"var(--ac)",l:"นักลงทุน: โมเดล SaaS ระดับโลก"}]},
+    pricing:{chip:"ราคา",h:"การเรียกเก็บเงินตามคาร์บอน",lead:"แพลตฟอร์มได้รับรายได้เฉพาะเมื่อลูกค้าได้รับผลกำไร",
+      plans:[
+        {n:"Starter",type:"พื้นฐาน",amt:"$1,000",per:"ต่อเดือน",feats:["สูงสุด 5 ฟาร์ม","รายงาน MRV","SHA-256 Evidence Packs","รองรับอีเมล"],cta:"เริ่มต้น",col:"var(--t2)",feat:false},
+        {n:"Professional",type:"เชื่อมรายได้",amt:"$1,000",per:"/ เดือน + 10% รายได้เครดิต",feats:["สูงสุด 20 ฟาร์ม","Evidence Engine","CBAM + ISO 14064","แผนที่คาร์บอน","สนับสนุน + SLA"],cta:"เริ่มทดลองใช้ฟรี →",col:"var(--ac)",feat:true},
+        {n:"Enterprise",type:"รัฐบาล & การเงิน",amt:"กำหนดเอง",per:"สัญญารายปี",feats:["ฟาร์มไม่จำกัด","Data Sovereign Mesh","White-label","SLA 99.9%","แพ็คเกจรัฐบาล"],cta:"ติดต่อฝ่ายขาย",col:"var(--cy)",feat:false},
+      ]},
+    cta:{chip:"เริ่มต้นวันนี้",h1:"ข้อมูลฟาร์มของคุณ",h2:"กลายเป็นสินทรัพย์",lead:"เปิดแดชบอร์ดและแปลงข้อมูลฟาร์มเป็นสินทรัพย์คาร์บอนได้เลย",b1:"เปิดแดชบอร์ด →",b2:"ติดต่อเรา",sub:"ไม่ต้องใช้บัตรเครดิต · ทดลองฟรี 14 วัน"},
+    foot:{desc:"Carbon Data OS ระดับองค์กรที่รัฐบาลและสถาบันการเงินทั่วโลกเชื่อถือ",bot:"© 2025 SignalCare.ltd",
+      cols:[{h:"แพลตฟอร์ม",links:[{t:"แดชบอร์ด",u:"https://dashboard.signalcare.ltd"},{t:"ฟีเจอร์",u:"#features"},{t:"ราคา",u:"#pricing"},{t:"สถาปัตยกรรม",u:"#arch"}]},{h:"ทรัพยากร",links:[{t:"เอกสาร",u:"#"},{t:"API",u:"#"},{t:"สถานะระบบ",u:"https://dashboard.signalcare.ltd/api/health"},{t:"ติดต่อ",u:"mailto:hello@signalcare.ltd"}]},{h:"บริษัท",links:[{t:"เกี่ยวกับ",u:"#"},{t:"Enterprise",u:"mailto:enterprise@signalcare.ltd"},{t:"รัฐบาล",u:"mailto:gov@signalcare.ltd"},{t:"ความเป็นส่วนตัว",u:"#"}]}]},
+  },
+  zh:{code:"zh",flag:"🇨🇳",name:"中文",dir:"ltr",
+    nav:{f:"功能",h:"工作原理",a:"架构",p:"定价",login:"登录",start:"免费开始 →"},
+    hero:{t1:"碳数据OS",t2:"MRV",t3:"ESG金融",chip:"数据主权 · 审计 · 实时",h1a:"您的农场数据",h1b:"就是资产。",
+      lead:"SignalCare是企业级碳数据操作系统，通过严格的数据隔离和完整性审计体系，让全球监管机构和金融机构即时信任。",
+      cta1:"启动仪表板 →",cta2:"了解工作原理",s1:"41个农场在线",s2:"SHA-256封存",s3:"7个国家"},
+    stats:[{v:"¥620K+",l:"月碳资产价值"},{v:"3,126",l:"tCO₂e已验证"},{v:"41",l:"农场节点"},{v:"97.4%",l:"信任分数"}],
+    feats:{chip:"企业平台",h:"5个核心模块。一个主权OS。",lead:"为政府提供国家基础设施，为客户提供收益模式，为金融机构提供可信资产。",
+      items:[
+        {ic:"🌏",t:"数据主权网格",d:"按国家在本地存储数据，集中元数据管理，完全符合各国数据法规。",badge:"P1",col:"var(--cy)"},
+        {ic:"⚡",t:"碳基计费",d:"只有当客户获得收益时，平台才获得收益。月费$1,000 + 10%信用收益。",badge:"P0",col:"#ff4560"},
+        {ic:"🔍",t:"证据关联审计日志",d:"所有用户活动与SHA-256封存的证据包关联追踪。",badge:"P0",col:"#ff4560"},
+        {ic:"🗺",t:"国家碳地图",d:"实时显示全国碳减排状况，包括地区数据、资产价值和泄漏警报。",badge:"P1",col:"var(--cy)"},
+        {ic:"🛡",t:"安全与合规审计",d:"租户间数据隔离、AES-256加密、RBAC访问控制、DLP验证。",badge:"P0.5",col:"#9b7dff"},
+        {ic:"📈",t:"收益分配 50/30/20",d:"碳信用收益自动分配。农场50% · SignalCare 30% · 合作伙伴20%。",badge:"P1",col:"var(--cy)"},
+      ]},
+    how:{chip:"流程",h:"农场数据 → 碳资产，5个步骤",
+      steps:[{n:1,t:"农场数据输入",d:"传感器·饲料·环境"},{n:2,t:"AI MRV计算",d:"CH₄·FCR·tCO₂e"},{n:3,t:"SHA-256封存",d:"不可篡改证据"},{n:4,t:"资产估值",d:"信任分×$33.60/t"},{n:5,t:"自动结算",d:"农场50%自动分配"}]},
+    arch:{chip:"架构",h:"碳数据OS 8层架构",lead:"从多租户SaaS到国家碳基础设施。",
+      items:[{c:"#ff4560",l:"政府：国家碳数据主权"},{c:"var(--cy)",l:"企业：监管合规自动化"},{c:"#9b7dff",l:"金融机构：可信抵押数据"},{c:"var(--ac)",l:"投资者：可扩展的全球SaaS"}]},
+    pricing:{chip:"定价",h:"碳基计费",lead:"只有当客户获得收益时，平台才获得收益",
+      plans:[
+        {n:"入门版",type:"基础版",amt:"$1,000",per:"每月",feats:["最多5个农场","基础MRV报告","SHA-256证据包","邮件支持"],cta:"开始使用",col:"var(--t2)",feat:false},
+        {n:"专业版",type:"收益关联",amt:"$1,000",per:"/ 月 + 10%信用收益",feats:["最多20个农场","完整证据引擎","CBAM + ISO 14064","国家碳地图","优先支持 + SLA"],cta:"开始免费试用 →",col:"var(--ac)",feat:true},
+        {n:"企业版",type:"政府与金融",amt:"定制",per:"年度合同",feats:["无限农场","数据主权网格","白标选项","SLA 99.9%","政府合规包"],cta:"联系销售",col:"var(--cy)",feat:false},
+      ]},
+    cta:{chip:"立即开始",h1:"您的农场数据",h2:"成为资产。",lead:"立即打开仪表板，将农场数据转化为碳资产。",b1:"启动仪表板 →",b2:"联系我们",sub:"无需信用卡 · 14天免费试用"},
+    foot:{desc:"全球政府和金融机构信赖的企业级碳数据OS。",bot:"© 2025 SignalCare.ltd",
+      cols:[{h:"平台",links:[{t:"仪表板",u:"https://dashboard.signalcare.ltd"},{t:"功能",u:"#features"},{t:"定价",u:"#pricing"},{t:"架构",u:"#arch"}]},{h:"资源",links:[{t:"文档",u:"#"},{t:"API参考",u:"#"},{t:"系统状态",u:"https://dashboard.signalcare.ltd/api/health"},{t:"联系",u:"mailto:hello@signalcare.ltd"}]},{h:"公司",links:[{t:"关于",u:"#"},{t:"企业销售",u:"mailto:enterprise@signalcare.ltd"},{t:"政府",u:"mailto:gov@signalcare.ltd"},{t:"隐私政策",u:"#"}]}]},
+  },
+  ar:{code:"ar",flag:"🇸🇦",name:"العربية",dir:"rtl",
+    nav:{f:"الميزات",h:"طريقة العمل",a:"البنية",p:"الأسعار",login:"تسجيل الدخول",start:"ابدأ مجاناً →"},
+    hero:{t1:"نظام بيانات الكربون",t2:"MRV",t3:"التمويل البيئي",chip:"سيادة البيانات · مدقق · فوري",h1a:"بيانات مزرعتك",h1b:"هي الأصل.",
+      lead:"SignalCare هو نظام تشغيل بيانات الكربون المؤسسي الذي تثق به الحكومات والمؤسسات المالية حول العالم.",
+      cta1:"إطلاق لوحة التحكم →",cta2:"شاهد كيف يعمل",s1:"٤١ مزرعة متصلة",s2:"مختوم SHA-256",s3:"٧ دول"},
+    stats:[{v:"+85k$",l:"قيمة الأصول الشهرية"},{v:"3,126",l:"tCO₂e موثق"},{v:"41",l:"عقدة مزرعة"},{v:"97.4%",l:"درجة الثقة"}],
+    feats:{chip:"منصة مؤسسية",h:"٥ وحدات أساسية. نظام تشغيل واحد سيادي.",lead:"بنية تحتية وطنية للحكومات، نموذج إيرادات للعملاء، أصول موثوقة للمؤسسات المالية.",
+      items:[
+        {ic:"🌏",t:"شبكة سيادة البيانات",d:"تخزين البيانات محلياً في كل دولة مع إدارة مركزية للبيانات الوصفية.",badge:"P1",col:"var(--cy)"},
+        {ic:"⚡",t:"الفواتير القائمة على الكربون",d:"تحقق المنصة إيرادات فقط عندما يحقق العملاء أرباحاً.",badge:"P0",col:"#ff4560"},
+        {ic:"🔍",t:"سجل التدقيق المرتبط بالأدلة",d:"جميع أنشطة المستخدمين مرتبطة بحزم الأدلة المختومة بـ SHA-256.",badge:"P0",col:"#ff4560"},
+        {ic:"🗺",t:"خريطة الكربون الوطنية",d:"عرض حالة خفض الكربون الوطنية في الوقت الفعلي.",badge:"P1",col:"var(--cy)"},
+        {ic:"🛡",t:"تدقيق الأمان والامتثال",d:"عزل بيانات المستأجر، تشفير AES-256، RBAC، DLP.",badge:"P0.5",col:"#9b7dff"},
+        {ic:"📈",t:"توزيع الإيرادات 50/30/20",d:"توزيع تلقائي لإيرادات ائتمان الكربون.",badge:"P1",col:"var(--cy)"},
+      ]},
+    how:{chip:"العملية",h:"بيانات المزرعة → أصول الكربون في 5 خطوات",
+      steps:[{n:1,t:"إدخال بيانات المزرعة",d:"أجهزة الاستشعار·العلف·البيئة"},{n:2,t:"حساب AI MRV",d:"CH₄·FCR·tCO₂e"},{n:3,t:"ختم SHA-256",d:"أدلة غير قابلة للتلاعب"},{n:4,t:"تقييم الأصول",d:"درجة الثقة × $33.60/t"},{n:5,t:"التسوية التلقائية",d:"50% للمزرعة تلقائياً"}]},
+    arch:{chip:"البنية",h:"نظام بيانات الكربون 8 طبقات",lead:"من SaaS متعدد المستأجرين إلى البنية التحتية الكربونية الوطنية.",
+      items:[{c:"#ff4560",l:"الحكومة: السيادة على بيانات الكربون"},{c:"var(--cy)",l:"المؤسسات: أتمتة الامتثال التنظيمي"},{c:"#9b7dff",l:"المؤسسات المالية: بيانات ضمان موثوقة"},{c:"var(--ac)",l:"المستثمرون: نموذج SaaS عالمي"}]},
+    pricing:{chip:"الأسعار",h:"الفواتير القائمة على الكربون",lead:"تحقق المنصة إيرادات فقط عندما يحقق العملاء أرباحاً",
+      plans:[
+        {n:"المبتدئ",type:"الأساسية",amt:"1,000$",per:"شهرياً",feats:["حتى 5 مزارع","تقارير MRV","حزم أدلة SHA-256","دعم البريد الإلكتروني"],cta:"ابدأ",col:"var(--t2)",feat:false},
+        {n:"المحترف",type:"مرتبط بالإيرادات",amt:"1,000$",per:"/ شهر + 10% إيرادات الائتمان",feats:["حتى 20 مزرعة","محرك أدلة كامل","CBAM + ISO 14064","خريطة الكربون","دعم أولوية + SLA"],cta:"بدء التجربة المجانية →",col:"var(--ac)",feat:true},
+        {n:"المؤسسي",type:"حكومة ومالية",amt:"مخصص",per:"عقد سنوي",feats:["مزارع غير محدودة","شبكة سيادة البيانات","العلامة البيضاء","SLA 99.9%","الامتثال الحكومي"],cta:"تواصل مع المبيعات",col:"var(--cy)",feat:false},
+      ]},
+    cta:{chip:"ابدأ اليوم",h1:"بيانات مزرعتك",h2:"تصبح أصلاً.",lead:"افتح لوحة التحكم الآن وحول بيانات مزرعتك إلى أصول كربونية.",b1:"إطلاق لوحة التحكم →",b2:"تواصل معنا",sub:"لا تحتاج بطاقة ائتمان · تجربة مجانية 14 يوم"},
+    foot:{desc:"نظام تشغيل بيانات الكربون المؤسسي الذي تثق به الحكومات والمؤسسات المالية.",bot:"© 2025 SignalCare.ltd",
+      cols:[{h:"المنصة",links:[{t:"لوحة التحكم",u:"https://dashboard.signalcare.ltd"},{t:"الميزات",u:"#features"},{t:"الأسعار",u:"#pricing"},{t:"البنية",u:"#arch"}]},{h:"الموارد",links:[{t:"التوثيق",u:"#"},{t:"مرجع API",u:"#"},{t:"حالة النظام",u:"https://dashboard.signalcare.ltd/api/health"},{t:"اتصل",u:"mailto:hello@signalcare.ltd"}]},{h:"الشركة",links:[{t:"من نحن",u:"#"},{t:"مبيعات المؤسسات",u:"mailto:enterprise@signalcare.ltd"},{t:"حكومي",u:"mailto:gov@signalcare.ltd"},{t:"الخصوصية",u:"#"}]}]},
+  },
+  vi:{code:"vi",flag:"🇻🇳",name:"Tiếng Việt",dir:"ltr",
+    nav:{f:"Tính năng",h:"Cách hoạt động",a:"Kiến trúc",p:"Giá cả",login:"Đăng nhập",start:"Bắt đầu miễn phí →"},
+    hero:{t1:"Hệ điều hành dữ liệu carbon",t2:"MRV",t3:"Tài chính ESG",chip:"Chủ quyền dữ liệu · Kiểm toán · Thời gian thực",
+      h1a:"Dữ liệu trang trại của bạn",h1b:"Chính là tài sản.",
+      lead:"SignalCare là hệ điều hành dữ liệu carbon cấp doanh nghiệp mà các chính phủ và tổ chức tài chính toàn cầu tin tưởng.",
+      cta1:"Mở bảng điều khiển →",cta2:"Xem cách hoạt động",s1:"41 trang trại kết nối",s2:"SHA-256 niêm phong",s3:"7 quốc gia"},
+    stats:[{v:"₫2.1T+",l:"Giá trị tài sản/tháng"},{v:"3,126",l:"tCO₂e xác minh"},{v:"41",l:"Nút trang trại"},{v:"97.4%",l:"Điểm tin cậy"}],
+    feats:{chip:"Nền tảng doanh nghiệp",h:"5 module cốt lõi. Một OS chủ quyền.",lead:"Cơ sở hạ tầng quốc gia cho chính phủ, mô hình doanh thu cho khách hàng, tài sản đáng tin cậy cho tổ chức tài chính.",
+      items:[
+        {ic:"🌏",t:"Data Sovereign Mesh",d:"Lưu trữ dữ liệu địa phương theo quy định từng quốc gia với quản lý siêu dữ liệu tập trung.",badge:"P1",col:"var(--cy)"},
+        {ic:"⚡",t:"Thanh toán dựa trên carbon",d:"Nền tảng chỉ kiếm được khi khách hàng kiếm được. $1,000/tháng + 10% doanh thu tín dụng.",badge:"P0",col:"#ff4560"},
+        {ic:"🔍",t:"Nhật ký kiểm toán bằng chứng",d:"Mọi hoạt động liên kết với gói bằng chứng được niêm phong SHA-256.",badge:"P0",col:"#ff4560"},
+        {ic:"🗺",t:"Bản đồ carbon quốc gia",d:"Hiển thị tình trạng giảm carbon quốc gia theo thời gian thực.",badge:"P1",col:"var(--cy)"},
+        {ic:"🛡",t:"Kiểm toán bảo mật",d:"Cách ly dữ liệu người thuê, AES-256, RBAC, DLP.",badge:"P0.5",col:"#9b7dff"},
+        {ic:"📈",t:"Chia sẻ doanh thu 50/30/20",d:"Phân phối tự động doanh thu tín dụng carbon.",badge:"P1",col:"var(--cy)"},
+      ]},
+    how:{chip:"Quy trình",h:"Dữ liệu trang trại → Tài sản carbon, 5 bước",
+      steps:[{n:1,t:"Nhập dữ liệu trang trại",d:"Cảm biến·thức ăn·môi trường"},{n:2,t:"Tính toán AI MRV",d:"CH₄·FCR·tCO₂e"},{n:3,t:"Niêm phong SHA-256",d:"Bằng chứng không thể giả mạo"},{n:4,t:"Định giá tài sản",d:"Điểm tin cậy × $33.60/t"},{n:5,t:"Thanh toán tự động",d:"Trang trại 50%"}]},
+    arch:{chip:"Kiến trúc",h:"Carbon Data OS 8 lớp",lead:"Từ SaaS đa người thuê đến cơ sở hạ tầng carbon quốc gia.",
+      items:[{c:"#ff4560",l:"Chính phủ: Chủ quyền dữ liệu carbon quốc gia"},{c:"var(--cy)",l:"Doanh nghiệp: Tự động hóa tuân thủ"},{c:"#9b7dff",l:"Tổ chức tài chính: Dữ liệu tài sản thế chấp"},{c:"var(--ac)",l:"Nhà đầu tư: Mô hình SaaS toàn cầu"}]},
+    pricing:{chip:"Giá cả",h:"Thanh toán dựa trên carbon",lead:"Nền tảng chỉ kiếm được khi khách hàng kiếm được",
+      plans:[
+        {n:"Starter",type:"Gói cơ bản",amt:"$1,000",per:"mỗi tháng",feats:["Tối đa 5 trang trại","Báo cáo MRV cơ bản","SHA-256 Evidence Packs","Hỗ trợ email"],cta:"Bắt đầu",col:"var(--t2)",feat:false},
+        {n:"Professional",type:"Liên kết doanh thu",amt:"$1,000",per:"/ tháng + 10% doanh thu",feats:["Tối đa 20 trang trại","Evidence Engine đầy đủ","CBAM + ISO 14064","Bản đồ carbon","Ưu tiên + SLA"],cta:"Bắt đầu dùng thử miễn phí →",col:"var(--ac)",feat:true},
+        {n:"Enterprise",type:"Chính phủ & Tài chính",amt:"Tùy chỉnh",per:"hợp đồng hàng năm",feats:["Trang trại không giới hạn","Data Sovereign Mesh","White-label","SLA 99.9%","Gói chính phủ"],cta:"Liên hệ bán hàng",col:"var(--cy)",feat:false},
+      ]},
+    cta:{chip:"Bắt đầu ngay",h1:"Dữ liệu trang trại của bạn",h2:"Trở thành tài sản.",lead:"Mở bảng điều khiển và chuyển đổi dữ liệu trang trại thành tài sản carbon.",b1:"Mở bảng điều khiển →",b2:"Liên hệ",sub:"Không cần thẻ tín dụng · Dùng thử 14 ngày"},
+    foot:{desc:"Carbon Data OS cấp doanh nghiệp được các chính phủ và tổ chức tài chính tin tưởng.",bot:"© 2025 SignalCare.ltd",
+      cols:[{h:"Nền tảng",links:[{t:"Bảng điều khiển",u:"https://dashboard.signalcare.ltd"},{t:"Tính năng",u:"#features"},{t:"Giá cả",u:"#pricing"},{t:"Kiến trúc",u:"#arch"}]},{h:"Tài nguyên",links:[{t:"Tài liệu",u:"#"},{t:"API Reference",u:"#"},{t:"Trạng thái hệ thống",u:"https://dashboard.signalcare.ltd/api/health"},{t:"Liên hệ",u:"mailto:hello@signalcare.ltd"}]},{h:"Công ty",links:[{t:"Giới thiệu",u:"#"},{t:"Enterprise",u:"mailto:enterprise@signalcare.ltd"},{t:"Chính phủ",u:"mailto:gov@signalcare.ltd"},{t:"Bảo mật",u:"#"}]}]},
+  },
+  id:{code:"id",flag:"🇮🇩",name:"Bahasa ID",dir:"ltr",
+    nav:{f:"Fitur",h:"Cara Kerja",a:"Arsitektur",p:"Harga",login:"Masuk",start:"Mulai Gratis →"},
+    hero:{t1:"Sistem Operasi Data Karbon",t2:"MRV",t3:"Keuangan ESG",chip:"Kedaulatan Data · Diaudit · Real-time",
+      h1a:"Data Kebun Anda",h1b:"Adalah Aset.",
+      lead:"SignalCare adalah Carbon Data OS tingkat enterprise yang langsung dipercaya oleh pemerintah dan lembaga keuangan di seluruh dunia.",
+      cta1:"Buka Dasbor →",cta2:"Lihat Cara Kerja",s1:"41 kebun terhubung",s2:"SHA-256 disegel",s3:"7 negara"},
+    stats:[{v:"Rp1.35B+",l:"Nilai Aset/Bulan"},{v:"3,126",l:"tCO₂e Terverifikasi"},{v:"41",l:"Node Kebun"},{v:"97.4%",l:"Skor Kepercayaan"}],
+    feats:{chip:"Platform Enterprise",h:"5 Modul Inti. Satu OS Berdaulat.",lead:"Infrastruktur nasional untuk pemerintah, model pendapatan untuk pelanggan, aset terpercaya untuk lembaga keuangan.",
+      items:[
+        {ic:"🌏",t:"Data Sovereign Mesh",d:"Menyimpan data secara lokal di setiap negara sesuai regulasi sambil mengelola metadata terpusat.",badge:"P1",col:"var(--cy)"},
+        {ic:"⚡",t:"Penagihan Berbasis Karbon",d:"Platform hanya menghasilkan pendapatan ketika pelanggan menghasilkan.",badge:"P0",col:"#ff4560"},
+        {ic:"🔍",t:"Log Audit Terhubung Bukti",d:"Semua aktivitas pengguna terhubung dengan paket bukti yang disegel SHA-256.",badge:"P0",col:"#ff4560"},
+        {ic:"🗺",t:"Peta Karbon Nasional",d:"Tampilkan status pengurangan karbon nasional secara real-time.",badge:"P1",col:"var(--cy)"},
+        {ic:"🛡",t:"Audit Keamanan & Kepatuhan",d:"Isolasi data penyewa, enkripsi AES-256, RBAC, validasi DLP.",badge:"P0.5",col:"#9b7dff"},
+        {ic:"📈",t:"Bagi Hasil 50/30/20",d:"Distribusi otomatis pendapatan kredit karbon.",badge:"P1",col:"var(--cy)"},
+      ]},
+    how:{chip:"Proses",h:"Data Kebun → Aset Karbon, 5 Langkah",
+      steps:[{n:1,t:"Input Data Kebun",d:"Sensor·pakan·lingkungan"},{n:2,t:"Kalkulasi AI MRV",d:"CH₄·FCR·tCO₂e"},{n:3,t:"Segel SHA-256",d:"Bukti tidak bisa dimanipulasi"},{n:4,t:"Penilaian Aset",d:"Skor Kepercayaan × $33.60/t"},{n:5,t:"Penyelesaian Otomatis",d:"Kebun 50%"}]},
+    arch:{chip:"Arsitektur",h:"Carbon Data OS 8 Lapisan",lead:"Dari SaaS multi-penyewa hingga infrastruktur karbon nasional.",
+      items:[{c:"#ff4560",l:"Pemerintah: Kedaulatan data karbon nasional"},{c:"var(--cy)",l:"Perusahaan: Otomasi kepatuhan regulasi"},{c:"#9b7dff",l:"Lembaga keuangan: Data jaminan terpercaya"},{c:"var(--ac)",l:"Investor: Model SaaS global yang dapat diskalakan"}]},
+    pricing:{chip:"Harga",h:"Penagihan Berbasis Karbon",lead:"Platform hanya menghasilkan pendapatan ketika pelanggan menghasilkan",
+      plans:[
+        {n:"Starter",type:"Tingkat Dasar",amt:"$1,000",per:"per bulan",feats:["Hingga 5 kebun","Laporan MRV dasar","SHA-256 Evidence Packs","Dukungan email"],cta:"Mulai",col:"var(--t2)",feat:false},
+        {n:"Professional",type:"Terkait Pendapatan",amt:"$1,000",per:"/ bulan + 10% pendapatan kredit",feats:["Hingga 20 kebun","Evidence Engine lengkap","CBAM + ISO 14064","Peta Karbon Nasional","Prioritas + SLA"],cta:"Mulai Uji Coba Gratis →",col:"var(--ac)",feat:true},
+        {n:"Enterprise",type:"Pemerintah & Keuangan",amt:"Kustom",per:"kontrak tahunan",feats:["Kebun tak terbatas","Data Sovereign Mesh","White-label","SLA 99.9%","Paket kepatuhan pemerintah"],cta:"Hubungi Penjualan",col:"var(--cy)",feat:false},
+      ]},
+    cta:{chip:"Mulai Hari Ini",h1:"Data Kebun Anda",h2:"Menjadi Aset.",lead:"Buka dasbor sekarang dan ubah data kebun menjadi aset karbon.",b1:"Buka Dasbor →",b2:"Hubungi Kami",sub:"Tidak perlu kartu kredit · Uji coba 14 hari"},
+    foot:{desc:"Carbon Data OS tingkat enterprise yang dipercaya pemerintah dan lembaga keuangan di seluruh dunia.",bot:"© 2025 SignalCare.ltd",
+      cols:[{h:"Platform",links:[{t:"Dasbor",u:"https://dashboard.signalcare.ltd"},{t:"Fitur",u:"#features"},{t:"Harga",u:"#pricing"},{t:"Arsitektur",u:"#arch"}]},{h:"Sumber Daya",links:[{t:"Dokumentasi",u:"#"},{t:"API Reference",u:"#"},{t:"Status Sistem",u:"https://dashboard.signalcare.ltd/api/health"},{t:"Kontak",u:"mailto:hello@signalcare.ltd"}]},{h:"Perusahaan",links:[{t:"Tentang",u:"#"},{t:"Enterprise",u:"mailto:enterprise@signalcare.ltd"},{t:"Pemerintah",u:"mailto:gov@signalcare.ltd"},{t:"Privasi",u:"#"}]}]},
+  },
+};
+
+/* ─── Helpers ─── */
+const DASH = 'https://dashboard.signalcare.ltd';
+const $    = id => document.getElementById(id);
+const set  = (id,v) => { const e=$(id); if(e) e.textContent=v; };
+const html = (id,v) => { const e=$(id); if(e) e.innerHTML=v; };
+const s8   = () => Array.from({length:8},  ()=>'0123456789abcdef'[Math.random()*16|0]).join('');
+const s64  = () => Array.from({length:64}, ()=>'0123456789abcdef'[Math.random()*16|0]).join('');
+const now  = () => new Date().toTimeString().slice(0,8);
+let asset  = 85420;
+let curLang = 'en';
+
+/* ─── Main render ─── */
+function render(code) {
+  curLang = code;
+  const d = D[code] || D.en;
+  document.documentElement.lang = d.code;
+  document.documentElement.dir  = d.dir;
+
+  /* Nav */
+  set('nf', d.nav.f); set('nh', d.nav.h); set('na', d.nav.a); set('np', d.nav.p);
+  set('nLogin', d.nav.login); set('nStart', d.nav.start);
+
+  /* Hero */
+  set('hT1', d.hero.t1); set('hT2', d.hero.t2); set('hT3', d.hero.t3);
+  set('hChip', d.hero.chip); set('hH1a', d.hero.h1a); set('hH1b', d.hero.h1b);
+  set('hLead', d.hero.lead);
+  set('hCta1', d.hero.cta1); set('hCta2', d.hero.cta2);
+  set('hS1', d.hero.s1); set('hS2', d.hero.s2); set('hS3', d.hero.s3);
+
+  /* Stats */
+  html('statsRow', d.stats.map(s =>
+    '<div class="stat rv">' +
+    '<div class="stat-n grad">' + s.v + '</div>' +
+    '<div class="stat-l">' + s.l + '</div>' +
+    '</div>'
+  ).join(''));
+
+  /* Features */
+  set('fChip', d.feats.chip); set('fH', d.feats.h); set('fLead', d.feats.lead);
+  html('fGrid', d.feats.items.map((item, i) => {
+    var delay = i % 3 ? ' d' + (i%3) : '';
+    return '<div class="fc rv' + delay + '">' +
+      '<div class="fc-ico">' + item.ic + '</div>' +
+      '<div class="fc-t">' + item.t + '</div>' +
+      '<div class="fc-d">' + item.d + '</div>' +
+      '<span class="fc-badge" style="background:' + item.col + '1a;color:' + item.col + '">' + item.badge + '</span>' +
+      '</div>';
+  }).join(''));
+
+  /* How */
+  set('hwChip', d.how.chip); set('hwH', d.how.h);
+  html('hwGrid', d.how.steps.map((s, i) =>
+    '<div class="how-s rv' + (i ? ' d'+Math.min(i,4) : '') + '">' +
+    '<div class="how-n">' + s.n + '</div>' +
+    '<div class="how-t">' + s.t + '</div>' +
+    '<div class="how-d">' + s.d + '</div>' +
+    '</div>'
+  ).join(''));
+
+  /* Architecture */
+  set('arChip', d.arch.chip); set('arH', d.arch.h); set('arLead', d.arch.lead);
+  html('arItems', d.arch.items.map(item =>
+    '<div class="arch-item">' +
+    '<div class="arch-dot" style="background:' + item.c + '"></div>' +
+    '<span>' + item.l + '</span>' +
+    '</div>'
+  ).join(''));
+
+  /* Pricing */
+  set('prChip', d.pricing.chip); set('prH', d.pricing.h); set('prLead', d.pricing.lead);
+  html('prGrid', d.pricing.plans.map(function(plan, i) {
+    var href = i === 2 ? 'mailto:enterprise@signalcare.ltd' : DASH;
+    var cls  = plan.feat ? ' feat' : '';
+    var top  = plan.feat ? '<div class="pc-top">RECOMMENDED · ' + d.pricing.chip + '</div>' : '';
+    var feats = plan.feats.map(function(f) { return '<li class="pc-item">' + f + '</li>'; }).join('');
+    var btnCls = plan.feat ? 'btn-p' : 'btn-o';
+    return '<div class="pc' + cls + '">' +
+      top +
+      '<div class="pc-name" style="color:' + plan.col + '">' + plan.n + '</div>' +
+      '<div class="pc-type">' + plan.type + '</div>' +
+      '<div class="pc-amt" style="color:' + plan.col + '">' + plan.amt + '</div>' +
+      '<div class="pc-per">' + plan.per + '</div>' +
+      '<ul class="pc-list">' + feats + '</ul>' +
+      '<a href="' + href + '" target="_blank" class="btn ' + btnCls + '" style="width:100%;justify-content:center">' + plan.cta + '</a>' +
+      '</div>';
+  }).join(''));
+
+  /* CTA */
+  set('ctaChip', d.cta.chip); set('ctaH1', d.cta.h1); set('ctaH2', d.cta.h2);
+  set('ctaLead', d.cta.lead); set('ctaB1', d.cta.b1); set('ctaB2', d.cta.b2);
+  set('ctaSub',  d.cta.sub);
+
+  /* Footer */
+  set('ftDesc', d.foot.desc); set('ftBot', d.foot.bot);
+  d.foot.cols.forEach(function(col, i) {
+    var links = col.links.map(function(l) {
+      var ext = (l.u.indexOf('http') === 0 || l.u.indexOf('mailto') === 0) ? ' target="_blank"' : '';
+      return '<a href="' + l.u + '" class="foot-link"' + ext + '>' + l.t + '</a>';
+    }).join('');
+    html('ftC' + (i+1), '<div class="foot-h">' + col.h + '</div><div class="foot-links">' + links + '</div>');
+  });
+
+  /* Lang button */
+  set('lpFlag', d.flag);
+  set('lpCode', d.code.toUpperCase());
+  updateLangMenu();
+
+  /* Re-observe newly added .rv */
+  setTimeout(function() {
+    document.querySelectorAll('.rv:not(.on)').forEach(function(el) { ro.observe(el); });
+  }, 50);
+}
+
+/* ─── Language menu ─── */
+function buildLangMenu() {
+  var menu = $('lpMenu');
+  menu.innerHTML = Object.values(D).map(function(d) {
+    return '<div class="lp-item' + (d.code === curLang ? ' sel' : '') + '" onclick="chooseLang(\'' + d.code + '\')">' +
+      '<span>' + d.flag + '</span><span>' + d.name + '</span>' +
+      '</div>';
+  }).join('');
+}
+function updateLangMenu() {
+  document.querySelectorAll('.lp-item').forEach(function(el) {
+    el.classList.toggle('sel', el.textContent.trim().indexOf(D[curLang].name) >= 0);
+  });
+}
+var lpOpen = false;
+function lpToggle() {
+  lpOpen = !lpOpen;
+  $('lpMenu').classList.toggle('show', lpOpen);
+  $('lpCaret').classList.toggle('open', lpOpen);
+}
+function chooseLang(code) {
+  lpOpen = false;
+  $('lpMenu').classList.remove('show');
+  $('lpCaret').classList.remove('open');
+  render(code);
+  try { document.cookie = 'sc_lang=' + code + ';path=/;max-age=31536000'; } catch(e) {}
+}
+document.addEventListener('click', function(e) {
+  if (!$('lpWrap').contains(e.target)) {
+    lpOpen = false;
+    var m = $('lpMenu'); if(m) m.classList.remove('show');
+    var c = $('lpCaret'); if(c) c.classList.remove('open');
+  }
+});
+
+/* ─── Scroll reveal ─── */
+var ro = new IntersectionObserver(function(entries) {
+  entries.forEach(function(e) {
+    if (e.isIntersecting) { e.target.classList.add('on'); ro.unobserve(e.target); }
+  });
+}, { threshold: 0.1 });
+document.querySelectorAll('.rv').forEach(function(el) { ro.observe(el); });
+
+/* ─── Nav scroll ─── */
+window.addEventListener('scroll', function() {
+  $('mainNav').classList.toggle('scr', window.scrollY > 40);
+}, { passive: true });
+
+/* ─── Smooth scroll ─── */
+document.querySelectorAll('a[href^="#"]').forEach(function(a) {
+  a.addEventListener('click', function(e) {
+    var t = document.querySelector(a.getAttribute('href'));
+    if (t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth' }); }
+  });
+});
+
+/* ─── Live widget ─── */
+function tick() {
+  asset += Math.random() * 2.1;
+  set('wAsset', '$' + Math.round(asset).toLocaleString('en-US'));
+  ['wT1','wT2','wT3'].forEach(function(id) { set(id, now()); });
+  ['wH1','wH2','wH3'].forEach(function(id) { set(id, s64()); });
+  set('ftHash', 'SHA-256: ' + s8() + '…');
+}
+
+/* ─── Init ─── */
+buildLangMenu();
+render('en');
+tick();
+setInterval(tick, 2400);
+
+/* ─── Cookie restore ─── */
+try {
+  var m = document.cookie.match(/sc_lang=([a-z]{2})/);
+  if (m && D[m[1]]) { render(m[1]); }
+} catch(e) {}
+</script>
+</body>
+</html>
